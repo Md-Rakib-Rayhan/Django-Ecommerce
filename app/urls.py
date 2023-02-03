@@ -24,14 +24,25 @@ urlpatterns = [
     path('cart_status/', views.cart_status, name='cart_status'),
 
 
-    path('buy/', views.buy_now, name='buy-now'),
+    path('buy/<slug:data>', views.buy_now, name='buy-now'),
 
     path('profile/', views.ProfileView.as_view(), name='profile'),
 
     path('address/', views.address, name='address'),
     path('orders/', views.orders, name='orders'),
+
     path('mobile/', views.mobile, name='mobile'),
     path('mobile/<slug:data>', views.mobile, name='mobiledata'),
+ 
+    path('laptop/', views.Laptop, name='laptop'),
+    path('laptop/<slug:data>', views.Laptop, name='laptopdata'),
+
+    path('TopWear/', views.TopWear, name='TopWear'),
+    path('TopWear/<slug:data>', views.TopWear, name='TopWeardata'),
+
+    path('BottomWear/', views.BottomWear, name='BottomWear'),
+    path('BottomWear/<slug:data>', views.BottomWear, name='BottomWeardata'),
+
     # path('login/', views.login, name='login'),
     path('accounts/login/', auth_views.LoginView.as_view (template_name='app/login.html',authentication_form=LoginForm), name='login'),
     #       urls            ai login athantication use korbe        ai page a kaj korbe       ai login from display korbe karon aitate class deya hoise

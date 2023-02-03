@@ -138,8 +138,14 @@ def cart_status(request):
         return JsonResponse(data)
 
 @login_required
-def buy_now(request):
- return render(request, 'app/buynow.html')
+def buy_now(request, data):
+ cart = Cart.objects.filter(product=data).filter(user=request.user)
+ if cart:
+    return redirect('/checkout')
+ else:
+     product = Product.objects.get(id=data)
+     Cart(user=request.user, product=product).save()
+     return redirect('/checkout')
 
 @method_decorator(login_required, name='dispatch')
 class ProfileView(View):
@@ -173,16 +179,55 @@ def orders(request):
  return render(request, 'app/orders.html', {'order_placced': op})
 
 
+# def mobile(request, data=None):
+#  if data == None:
+#     mobiles = Product.objects.filter(category='M')
+#  elif data == 'Xiaomi' or data == 'Samsung' or data == 'Nothing' or data == 'Oppo' or data == 'Vivo' or data == 'Infinix':
+#     mobiles = Product.objects.filter(category='M').filter(brand=data)
+#  elif data == 'Below':
+#     mobiles = Product.objects.filter(category='M').filter(discounted_price__lt=10000)
+#  elif data == 'Above':
+#     mobiles = Product.objects.filter(category='M').filter(discounted_price__gt=10000)
+#  return render(request, 'app/mobile.html', {'mobiles':mobiles})
 def mobile(request, data=None):
+ product = 'M'
+ if data == 'Xiaomi' or data == 'Samsung' or data == 'Nothing' or data == 'Oppo' or data == 'Vivo' or data == 'Infinix':
+    products = Product.objects.filter(category='M').filter(brand=data)
+ else:
+    products = repeate(data, product)
+ return render(request, 'app/filter.html', {'products':products, 'p':product})
+
+def TopWear(request, data=None):
+ product = 'TW'
+ if data == 'adidas' or data == 'OP' or data == 'nick':
+    products = Product.objects.filter(category='TW').filter(brand=data)
+ else:
+    products = repeate(data, product)
+ return render(request, 'app/filter.html', {'products':products, 'p':product})
+
+def BottomWear(request, data=None):
+ product = 'BW'
+ if data == 'adidas' or data == 'longi':
+    products = Product.objects.filter(category='BW').filter(brand=data)
+ else:
+    products = repeate(data, product)
+ return render(request, 'app/filter.html', {'products':products, 'p':product})
+def Laptop(request, data=None):
+ product = 'L'
+ if data == 'Asos' or data == 'Hp':
+    products = Product.objects.filter(category='L').filter(brand=data)
+ else:
+    products = repeate(data, product)
+ return render(request, 'app/filter.html', {'products':products, 'p':product})
+
+def repeate(data,product):
  if data == None:
-    mobiles = Product.objects.filter(category='M')
- elif data == 'Xiaomi' or data == 'Samsung' or data == 'Nothing' or data == 'Oppo' or data == 'Vivo' or data == 'Infinix':
-    mobiles = Product.objects.filter(category='M').filter(brand=data)
+    products = Product.objects.filter(category=product)
  elif data == 'Below':
-    mobiles = Product.objects.filter(category='M').filter(discounted_price__lt=10000)
+    products = Product.objects.filter(category=product).filter(discounted_price__lt=10000)
  elif data == 'Above':
-    mobiles = Product.objects.filter(category='M').filter(discounted_price__gt=10000)
- return render(request, 'app/mobile.html', {'mobiles':mobiles})
+    products = Product.objects.filter(category=product).filter(discounted_price__gt=10000)
+ return products
 
 # def login(request):
 #  return render(request, 'app/login.html')
@@ -216,7 +261,10 @@ def checkout(request):
         tempamount = (p.quantity * p.product.discounted_price)
         amount += tempamount
     total_amount = amount + shipping_amount
- return render(request, 'app/checkout.html', {'add': add, 'totalamount': total_amount,'cart_item':cart_item})
+    return render(request, 'app/checkout.html', {'add': add, 'totalamount': total_amount,'cart_item':cart_item})
+ else:
+    return render(request, 'app/addtocart.html', {'amount':amount, 'shipping':'0.0', 'totalamount':'0.0' })
+
 
 @login_required
 def payment_done(request):
@@ -231,22 +279,8 @@ def payment_done(request):
 
 
 def search(request):
-
-    
     userenter = request.GET.get('search')
+    result = Product.objects.filter(title__contains=userenter)
 
-    Search = userenter
-    SearchData = Search.split(" ")
-
-    
-    getproduct1 = Product.objects.filter(title = userenter)
-    getproduct2 = Product.objects.filter(title = SearchData)
-    if getproduct1 != None:
-        getproduct = getproduct1
-    else:
-        getproduct = getproduct2
-
-
-    return render(request, 'app/search.html', {'getproduct':getproduct})
-
+    return render(request, 'app/search.html', {'getproduct':result})
 

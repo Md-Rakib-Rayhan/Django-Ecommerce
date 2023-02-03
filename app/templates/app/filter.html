@@ -1,0 +1,62 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Mobile{% endblock title %}
+{% block main-content %}
+<div class="container my-5 container-m">
+ <div class="row">
+  <div class="col-sm-2">
+      <div class="list-group">
+        {% if p == 'M' %}
+        <a href="{% url 'mobile' %}" class="list-group-item list-group-item-action"aria-current="true">All Mobile</a>
+        <a href="{% url 'mobiledata' 'Xiaomi' %}" class="list-group-item list-group-item-action"aria-current="true">Xiaomi</a>
+        <a href="{% url 'mobiledata' 'Samsung' %}" class="list-group-item list-group-item-action">Samsung</a>
+        <a href="{% url 'mobiledata' 'Oppo' %}" class="list-group-item list-group-item-action">Oppo</a>
+        <a href="{% url 'mobiledata' 'Vivo' %}" class="list-group-item list-group-item-action">Vivo</a>
+        <a href="{% url 'mobiledata' 'Infinix' %}" class="list-group-item list-group-item-action">Infinix</a>
+        <a href="{% url 'mobiledata' 'Nothing' %}" class="list-group-item list-group-item-action">Nothing</a>
+        <a href="{% url 'mobiledata' 'Below' %}" class="list-group-item list-group-item-action">Below 10000</a>
+        <a href="{% url 'mobiledata' 'Above' %}" class="list-group-item list-group-item-action">Above 10000</a>
+        {% elif p == 'TW' %}
+        <a href="{% url 'TopWear' %}" class="list-group-item list-group-item-action"aria-current="true">All TopWear</a>
+        <a href="{% url 'TopWeardata' 'adidas' %}" class="list-group-item list-group-item-action">Adidas</a>
+        <a href="{% url 'TopWeardata' 'OP' %}" class="list-group-item list-group-item-action">OP</a>
+        <a href="{% url 'TopWeardata' 'nick' %}" class="list-group-item list-group-item-action">Nick</a>
+        <a href="{% url 'TopWeardata' 'Below' %}" class="list-group-item list-group-item-action">Below 10000</a>
+        <a href="{% url 'TopWeardata' 'Above' %}" class="list-group-item list-group-item-action">Above 10000</a>
+        {% elif p == 'BW' %}
+        <a href="{% url 'BottomWear' %}" class="list-group-item list-group-item-action"aria-current="true">All BottomWear</a>
+        <a href="{% url 'BottomWeardata' 'adidas' %}" class="list-group-item list-group-item-action">Adidas</a>
+        <a href="{% url 'BottomWeardata' 'longi' %}" class="list-group-item list-group-item-action">Longi</a>
+        <a href="{% url 'BottomWeardata' 'Above' %}" class="list-group-item list-group-item-action">Above 10000</a>
+        <a href="{% url 'BottomWeardata' 'Below' %}" class="list-group-item list-group-item-action">Below 10000</a>
+        {% elif p == 'L' %}
+        <a href="{% url 'laptop' %}" class="list-group-item list-group-item-action"aria-current="true">All BottomWear</a>
+        <a href="{% url 'laptopdata' 'Asos' %}" class="list-group-item list-group-item-action">Asos</a>
+        <a href="{% url 'laptopdata' 'Hp' %}" class="list-group-item list-group-item-action">Hp</a>
+        <a href="{% url 'laptopdata' 'Above' %}" class="list-group-item list-group-item-action">Above 10000</a>
+        <a href="{% url 'laptopdata' 'Below' %}" class="list-group-item list-group-item-action">Below 10000</a>
+
+        {% endif %}
+    </div>
+  </div>
+  <div class="col-sm-10">
+    <div class="row">
+        {% for product in products %}
+        <div class="col-sm-4 text-center mb-4">
+            <a href="{% url 'product-detail' product.id %}" class="btn">
+                <div class="item">
+                    <img src="{{product.product_image.url}}" alt="" height="300px" width="300px" style="object-fit: cover;">
+                    <div class="fw-bold">{{product.title}}</div>
+                    <div class="fw-bold text-success">BDT. {{product.discounted_price}}</div>
+                    <small class="fw-light text-decoration-line-through text-danger">{{product.selling_price}}</small>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <p class="text-center">Sorry, no product found.</p>
+        {% endfor %}
+    </div>
+  </div>
+ </div>
+</div>
+{% endblock main-content %}

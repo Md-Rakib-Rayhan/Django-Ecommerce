@@ -21,10 +21,10 @@
 
     <title>Shoppy | {% block title %} {% endblock title %} </title>
   </head>
-  <body onload="cartvalue()" >
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <body onload="cartvalue()" style="background:#f8f9fd">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
      <div class="container">
-       <a class="navbar-brand" href="/">Shoppy</a>
+       <a class="navbar-brand" href="/">SHOPPY</a>
        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
        </button>
@@ -39,7 +39,7 @@
              </a>
              <ul class="dropdown-menu" aria-labelledby="electronicsDropdown">
                <li><a class="dropdown-item" href="{% url 'mobile' %}">Mobile</a></li>
-               <li><a class="dropdown-item" href="#">Laptop</a></li>
+               <li><a class="dropdown-item" href="{% url 'laptop' %}">Laptop</a></li>
              </ul>
            </li>
            <li class="nav-item dropdown">
@@ -47,14 +47,14 @@
                Fashion
              </a>
              <ul class="dropdown-menu" aria-labelledby="fashionDropdown">
-               <li><a class="dropdown-item" href="#">Top Wear</a></li>
-               <li><a class="dropdown-item" href="#">Bottom Wear</a></li>
+               <li><a class="dropdown-item" href="{% url 'TopWear' %}">Top Wear</a></li>
+               <li><a class="dropdown-item" href="{% url 'BottomWear' %}">Bottom Wear</a></li>
              </ul>
            </li>
          </ul>
          <form class="d-flex" action="/searchresult">
            <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
-           <button class="btn btn-warning" type="submit">S</button>
+           <button class="btn btn-warning" type="submit"><i class="fa fa-search" style="color:white"></i></button>
          </form>
          <div>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
