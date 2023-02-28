@@ -22,3 +22,20 @@
 .container-m{
     min-height: 100vh;
 }
+
+@media (min-width: 576px) and (max-width: 991.98px) {
+    #res{
+        margin: 10px 0px 0px 0px !important;
+        padding: 0.5rem 3.5rem !important;
+      }
+  }
+
+
+
+@media (max-width: 576px) {
+    .owl-carousel .item img {
+        height: 432px !important;
+        width: 432px !important;
+        object-fit: cover !important;
+    }
+  }
